@@ -169,11 +169,11 @@ Lo que más debemos tener en cuenta cuando hacemos el pasaje es la cardialidad m
 
 Pasaje de **interrelación N:M**
 
-- **Estrategia de claves cruzadas**: Creamos una nueva relación con la clave primaria compuesta de ambas claves primarias de las relaciones que se relacionan. Por ejemplo en el caso de estudiantes y materias, la clave primaria de la nueva relación será la clave primaria de estudiantes y la clave primaria de materias.
+- **Estrategia de referencias cruzadas**: Creamos una nueva relación con la clave primaria compuesta de ambas claves primarias de las relaciones que se relacionan. Por ejemplo en el caso de estudiantes y materias, la clave primaria de la nueva relación será la clave primaria de estudiantes y la clave primaria de materias.
 
 Pasaje de **interrelación 1:1**
 
-- **Estrategia claves cruzadas**: Podemos o crear una relación nueva con los atributos de las claves primarias de las relaciones que se relacionan y la clave primaria de la nueva relación será o bien la clave primaria de una o de la otra relación, en cualquier otro caso, está no será minimal.
+- **Estrategia de referencias cruzadas**: Podemos o crear una relación nueva con los atributos de las claves primarias de las relaciones que se relacionan y la clave primaria de la nueva relación será o bien la clave primaria de una o de la otra relación, en cualquier otro caso, está no será minimal.
 - **Estrategia clave foránea**: Podemos agregar la clave foránea de una relación a la otra, pero en este caso, la clave foránea puede ser nula. En este caso debemos elegir aquella cuya participación sea mayor (total en el mejor caso). Por ejemplo en el caso de departamentos y gerentes, tiene más sentido que el departamento tenga la clave foránea del gerente, ya que un gerente puede no tener un departamento asignado pero un departamento siempre tiene un gerente asignado.
 - **Estrategia única relación**: Podemos crear una tabla que tenga todos los atributos de las relaciones que se relacionan y la clave primaria de la nueva relación será la clave primaria de una de las relaciones.
 
@@ -185,7 +185,7 @@ Lo que no se debe hacer es crear clave foráneas en ambas relaciones, ya que est
 
 Pasaje de **interrelación 1:N**
 
-- **Estrategia claves cruzadas**: Podemos crear una nueva relación con las claves primarias de las relaciones que se relacionan y la clave primaria de la nueva relación será la clave primaria de la relación que tiene cardinalidad 1. Por ejemplo en el caso de futbolistas y equipos, la clave primaria de la nueva relación será la clave primaria del futbolista ya que un futbolista solo puede pertenecer a un equipo pero un equipo puede tener muchos futbolistas.
+- **Estrategia de referencias cruzadas**: Podemos crear una nueva relación con las claves primarias de las relaciones que se relacionan y la clave primaria de la nueva relación será la clave primaria de la relación que tiene cardinalidad 1. Por ejemplo en el caso de futbolistas y equipos, la clave primaria de la nueva relación será la clave primaria del futbolista ya que un futbolista solo puede pertenecer a un equipo pero un equipo puede tener muchos futbolistas.
 - **Estrategia clave foránea**: Podemos agregar la clave foránea de la relación que tiene cardinalidad 1 a la relación que tiene cardinalidad N. Por ejemplo en el caso de futbolistas y equipos, la clave foránea será la clave primaria del equipo en la relación de futbolistas.
 
 ### Pasaje de entidades débiles
@@ -207,7 +207,7 @@ En este caso la clave foránea no puede ser nula, ya que la clave foránea es la
 
 Cuando todos son N se debe usar:
 
-- **Estrategia claves cruzadas**: se debe crear una relación que tenga como clave primaria las claves primarias de las relaciones que se relacionan.
+- **Estrategia de referencias cruzadas**: se debe crear una relación que tenga como clave primaria las claves primarias de las relaciones que se relacionan.
 
 Cuando hay una relación 1 se debe usar:
 
