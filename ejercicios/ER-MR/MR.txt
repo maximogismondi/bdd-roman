@@ -1,0 +1,7 @@
+A(A1, A2) PK:{A1}
+B(H1, B1, B2) PK:{H1, B1} FK:{H1}
+C(A1, B1, H1, E1, E2) PK:{A1, E1, E2} FK:{A1, B1, H1, E1, E2}
+E(E1, E2, E3, H1, F1) PK:{E1, E2} FK:{H1}
+G(E1, E2, H1) PK:{E1, E2, H1} FK:{E1, E2, H1}
+# La participación total de E con H en G no está satisfecha
+H(H1, H2) PK:{H1}
