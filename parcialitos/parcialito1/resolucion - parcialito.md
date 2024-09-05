@@ -43,38 +43,6 @@ Resultado:
 
 ### Ejercicio B
 
-Si se refiere a en alguna película:
-
-Consulta:
-
-```relax
-ACTOR = π id σ first_name = 'Ferdy' ∧ last_name = 'Mayne' actors
-MOVIES_WITH_ACTOR = ρ actor_movies (π movie_id (roles ⨝ actors.id = roles.actor_id ACTOR))
-
-ACTORS_IN_MOVIES = π actor_id (roles ⨝ roles.movie_id = actor_movies.movie_id MOVIES_WITH_ACTOR) - ACTOR
-
-ACTORS_IN_MOVIES_NAMES = π first_name, last_name (actors ⨝ actors.id = roles.actor_id ACTORS_IN_MOVIES)
-ACTORS_IN_MOVIES_NAMES
-```
-
-Resultado:
-
-| actors.first_name | actors.last_name |
-|----|------|
-|'Stephen (I)'|'Boyd'|
-|'Steven'|'Berkoff'|
-|'Stevenson'|'Lang'|
-|'Terence'|'Longdon'|
-|'Thomas'|'O Leary'|
-|'Tiberio'|'Mitri'|
-|'Tutte'|'Lemkow'|
-|'Victor'|'De La Fosse'|
-|...|...|
-
-Son 109 actores en total.
-
-Si se refiere a que el actor haya participado en todas las películas en las que participó Ferdy Mayne:
-
 Consulta:
 
 ```relax
