@@ -6,7 +6,7 @@
 |:-:|:-:|:-:|:-:|:-:|
 |A(A1)|{A1}|{A1}||No se puede garantizar la participación total con B mediante C|
 |B(A1, B1)|{A1, B1}|{A1, B1}|{A1} ref A||
-|D(A1,A1_2,B1)|{A1,A1_2,B1}|{A1,A1_2,B1}|{A1_2} ref A {A1,B1} ref B||
+|D(A1,A1',B1)|{A1,B1}|{A1,B1}|{A1'} ref A {A1,B1} ref B||
 |E(E1,E2,E3)|{E1,E2}|{E1,E2}|||
 |F(F1,F2)|{F1}|{F1}|||
 |G(A1,E1,E2,F1,G1)|{A1,E1,E2,F1}|{A1,E1,E2,F1}|{A1} ref A {E1,E2} ref E {F1} ref F||
@@ -14,7 +14,7 @@
 
 Aclaraciones:
 
-No estoy muy seguro para la relación de D, como diferenciar el A1 que viene del propio B con el A1 que se interelaciona con A. Le puse A1 y A1_2 pero no estoy seguro si es correcto. De todas formas aclaré en las claves foráneas cual es cual.
+No estoy muy seguro para la relación de D, como diferenciar el A1 que viene del propio B con el A1 que se interelaciona con A. Le puse A1 y A1' pero no estoy seguro si es correcto. De todas formas aclaré en las claves foráneas cual es cual.
 
 ## Ejercicio 2
 
@@ -42,6 +42,8 @@ Resultado:
 |64833|'City Lights'|1931|
 
 ### Ejercicio B
+
+Suposición: se piden los actores que participaron en TODAS las películas en las que participó Ferdy Mayne.
 
 Consulta:
 
