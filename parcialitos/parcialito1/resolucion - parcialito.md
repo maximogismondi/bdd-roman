@@ -3,7 +3,7 @@
 ## Ejercicio 1
 
 | Relación | Clave Primaria | Claves Candidatas | Claves Foráneas | Aclaraciones |
-|----------|----------------|-------------------|-----------------| ------------ |
+|:-:|:-:|:-:|:-:|:-:|
 |A(A1)|{A1}|{A1}||No se puede garantizar la participación total con B mediante C|
 |B(A1, B1)|{A1, B1}|{A1, B1}|{A1} ref A||
 |D(A1,A1_2,B1)|{A1,A1_2,B1}|{A1,A1_2,B1}|{A1_2} ref A {A1,B1} ref B||
@@ -38,7 +38,7 @@ OLDESTS_COMEDY_MOVIES
 Resultado:
 
 | movies.id | movies.name | movies.year |
-|----|------|------|
+|:-:|:-:|:-:|
 |64833|'City Lights'|1931|
 
 ### Ejercicio B
@@ -58,5 +58,5 @@ ACTORS_IN_MOVIES_NAMES
 
 Resultado:
 | actors.first_name | actors.last_name |
-|----|------|
+|:-:|:-:|
 |'André'|'Morell'|
