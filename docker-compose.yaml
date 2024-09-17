@@ -17,18 +17,18 @@ services:
       - postgresdata:/var/lib/postgresql/data
 
   # Servicio para PgAdmin
-  pgadmin:
-    image: dpage/pgadmin4:7.5
-    container_name: bdd_pg_admin
-    # restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
-    ports:
-      - "5050:80"
-    volumes:
-      - pgadmindata:/var/lib/pgadmin
+  # pgadmin:
+  #   image: dpage/pgadmin4:7.5
+  #   container_name: bdd_pg_admin
+  #   # restart: always
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+  #     PGADMIN_DEFAULT_PASSWORD: admin123
+  #   ports:
+  #     - "5050:80"
+  #   volumes:
+  #     - pgadmindata:/var/lib/pgadmin
 
 volumes:
-  pgadmindata:
+  # pgadmindata:
   postgresdata:
