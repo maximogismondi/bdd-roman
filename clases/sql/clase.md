@@ -183,6 +183,14 @@ FROM tabla1 [, tabla2, ..., tablaN ]
 
 En la claúsula `FROM` se pueden consultar por un o muchas tablas y hacer una combinación de ellas resultará en un producto cartesiano.
 
+Otra forma de hacer el producto cartesiano es con la claúsula `CROSS JOIN`.
+
+```sql
+SELECT columna1, columna2
+FROM tabla1
+CROSS JOIN tabla2;
+```
+
 En la claúsula `WHERE` se pueden poner condiciones para filtrar los resultados.
 
 ### Comentarios
