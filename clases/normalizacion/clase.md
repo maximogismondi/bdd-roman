@@ -2,11 +2,11 @@
 
 ## Dependencias Funcionales
 
-Una dependencia funcional es una relación entre dos conjuntos de atributos de una relación de una base de datos. Más concretamente, dado una serie de atributos `X` y otra serie de atributos `Y`, se dice que `Y` es funcionalmente dependiente de `X` si y solo si para cada valor de `X` existe un solo valor de `Y`.
+Una dependencia funcional es una relación entre dos conjuntos de atributos de una relación de una base de datos. Más concretamente, dado una serie de atributos $X$ y otra serie de atributos $Y$, se dice que $Y$ es funcionalmente dependiente de $X$ si y solo si para cada valor de $X$ existe un solo valor de $Y$.
 
-También se dice que `X` implica funcionalmente a `Y` y se denota como `X -> Y`.
+También se dice que $X$ implica funcionalmente a $Y$ y se denota como $X \rightarrow Y$.
 
-Dada unas tuplas `t1` y `t2` de una relación `R`, si `X -> Y` entonces `t1[X] = t2[X] -> t1[Y] = t2[Y]`.
+Dada unas tuplas $t1$ y $t2$ de una relación $R$, si $X \rightarrow Y$ entonces $t1[X] = t2[X] \rightarrow t1[Y] = t2[Y]$.
 
 Cuando $Y \subseteq X$ se dice que $X$ determina trivialmente a $Y$.
 
@@ -50,7 +50,9 @@ $$ X^+_F = \{ A_i | F \models X \rightarrow A_i \} $$
 
 Si volvemos a las claves candidatas, podemos decir que una clave candidata $CK$ es un conjunto de atributos tal que $CK^+ = A_1, A_2, ..., A_n = R$ y ningún subconjunto propio de $CK$ cumple con la misma condición.
 
-Algoritmo para calcular la clausura de un conjunto de atributos
+Si queremos saber si dos conjuntos de atributos $X$ e $Y$ son equivalentes, podemos decir que $X = Y$ si y solo si $X^+_F = Y^+_F$.
+
+**Algoritmo para calcular la clausura de un conjunto de atributos**:
 
 ```pseudo
 1. Inicializar $X^+_F = X$.
@@ -58,6 +60,50 @@ Algoritmo para calcular la clausura de un conjunto de atributos
     1. Para cada dependencia funcional ($Y \rightarrow Z$) en $F$:
         1. Si $Y \subseteq X^+_F$ entonces agregar $Z$ a $X^+_F$.
 3. Retornar $X^+_F$.
+```
+
+### Cubrimiento minimal
+
+Un conjunto de dependencias funcionales $F$ es minimal si y solo si no se pueden eliminar dependencias funcionales de $F$ sin que la clausura de $F$ cambie.
+
+Este cubrimiento minimal se puede obtener a partir de un conjunto de dependencias funcionales $F$ y se denota como $F_m$.
+
+Las reglas para reducir un conjunto de dependencias funcionales son:
+
+- **Implicante atómico**:Todo implicado (lado derecho) de una dependencia funcional de $F_m$ debe ser un único atributo, es decir simple. $X \rightarrow AB$ se reduce a $X \rightarrow A$ y $X \rightarrow B$.
+- **Determinante reducido**: Todo determinante (lado izquierdo) de una dependencia funcional de $F_m$ es reducido, en el sentido de no contener atributos redundantes. Es decir, si tenemos $AB \rightarrow C$ y $A \rightarrow B$ entonces se reduce la dependencia funcional de $AB \rightarrow C$ a $A \rightarrow C$.
+- **Dependencias funcionales fundamentales**: $F_m$ no contiene dependencias funcionales redundantes. Es decir, si tenemos $X \rightarrow Y$, $Y \rightarrow Z$ y $X \rightarrow Z$ entonces se elimina la dependencia funcional $X \rightarrow Z$ ya que se puede inferir a partir de las otras dos.
+
+Para hayar esto, debemos seguir los siguientes pasos:
+
+1. Dejar todos los implicantes atómicos.
+2. Simplificar los determinantes redundantes. Si tenemos $B \subset A^+_F$ y $AB \rightarrow C$ entonces podemos reducir la dependencia funcional a $A \rightarrow C$.
+3. Eliminar las dependencias funcionales redundantes. Si tenemos $X \rightarrow Y$ y $Y \subset X^+_{F-\{X\rightarrow Y\}}$ entonces eliminamos la dependencia funcional $X \rightarrow Y$.
+
+### Tipos de claves
+
+- **Superclave**: Un conjunto de atributos $X$ es una superclave si y solo si $X^+_F = R$ donde $R$ es el conjunto de atributos de la relación y $F$ es un conjunto de dependencias funcionales.
+- **Clave candidata**: Una superclave minimal, es decir, una superclave que no contiene subconjuntos propios que sean superclaves.
+- **Clave primaria**: Una clave candidata que se elige como clave principal de la relación.
+
+**Algoritmo para encontrar claves candidatas**:
+
+Dado un $R(A1, A2, ..., An)$ y un conjunto de dependencias funcionales $F$, el algoritmo para encontrar las claves candidatas es:
+
+```pseudo
+1. Hayar el cubrimiento minimal $F_m$ de $F$. Inicializar $C = R$.
+2. Detectar atributos independientes del cálculo $A_i$ (atributos que no están en ninguna dependencia funcional), y eliminarlos de $C$ y reservarlos para después. $C$ = $C - A_i$.
+3. Eliminar atributos equivalentes de $C$ (dejar solo uno de los atributos equivalentes). $Ae_1$ y $Ae_2$ son equivalentes si $Ae_1^+_{F_m} = Ae_2^+_{F_m}$. Entonces podemos eliminar $Ae_2$ de $C$. $C = C - Ae_2$. Y reemplazar $Ae_2$ por $Ae_1$ en todas las dependencias funcionales de $F_m$.
+4. Se forman $K$ con todos los elementos que sean sólo implicantes $A_i$ (estén sólo en parte izquierda), se calcula $K^+_{F_m}$ y si es todo $R$ entonces $K$ es clave candidata.
+5. Si $K$ no resulto clave, se busca el conjunto de elementos que estén entre los implicantes pero que puedan ser implicados, pero a su vez que no sean implicados directamente por los elemntos de $K$. Se obtiene entonces $Aid$ tal que todos los elementos sean implicantes y que sean determinantes de dependencias funcionales que a su vez no sean determinantes de dependencias funcionales de $K$ es decir $K^+_{F_M} \cap Aid = \emptyset$. 
+
+Ahora si construimos claves formadas por $K$ y subconjuntos de $Aid$. De modo que tomamos primero subconjuntos de tamaño 1, verificamos si son claves candidatas y si lo son, las agregamos a la lista de claves candidatas y eliminamos a los elementos de $Aid$, luego seguimos con subconjuntos de tamaño 2, y así sucesivamente hasta que no queden más subconjuntos posibles de tamaño $n$ en la vuelta $n$, es decir hasta que $|Aid| < n$.
+
+Con esto habremos formado un conjunto $K$ de claves candidatas.
+
+6. Agregar los atributos independientes al final de cada clave candidata.
+
+7. Para cada atributo equivalente eliminado en el paso 3, se calculan todas las nuevas claves candidatas que se pueden formar con estos atributos y se agregan a la lista de claves candidatas.
 ```
 
 ## Atributos primos
@@ -120,9 +166,9 @@ Otra forma de expresarlo es que para toda dependencia funcional no trivial $X \r
 
 ### Forma Normal de Boyce-Codd (FNBC)
 
-Un esquema de base de datos está en FNBC cuando no existen dependencias transitivas `CK \rightarrow Y` con `CK` una clave candidata. Es decir, eliminamos la posibilidad de tener dependencias `X \rightarrow Y` donde `Y` es un atributo primo.
+Un esquema de base de datos está en FNBC cuando no existen dependencias transitivas $CK \rightarrow Y$ con $CK$ una clave candidata. Es decir, eliminamos la posibilidad de tener dependencias $X \rightarrow Y$ donde $Y$ es un atributo primo.
 
-Dicho de otra forma, una relación está en FNBC cuando para toda dependencia funcional no trivial `X \rightarrow Y`, `X` es superclave.
+Dicho de otra forma, una relación está en FNBC cuando para toda dependencia funcional no trivial $X \rightarrow Y$, $X$ es superclave.
 
 El problema que resuelve la FNBC se da cuando en una relación, existen varias claves candidatas que se superponen. En este caso, la FNBC garantiza que no existan dependencias transitivas entre ellas.
 
@@ -130,19 +176,19 @@ El problema de la FNBC es que no garantiza que se mantengas las dependencias fun
 
 ### Cuarta Forma Normal (4FN)
 
-Un esquema de base de datos está en 4FN si y solo si para toda dependencia multivaluada `X \twoheadrightarrow Y`, `X` es superclave.
+Un esquema de base de datos está en 4FN si y solo si para toda dependencia multivaluada $X \twoheadrightarrow Y$, $X$ es superclave.
 
-- Propiedad: Si `R` está en 4FN entonces `R` está en FNBC.
+- Propiedad: Si $R$ está en 4FN entonces $R$ está en FNBC.
 
   - **¿Demostración?**
   - Toda dependencia funcional, es una dependencia multivaluada. $X \rightarrow Y$ es equivalente a $X \twoheadrightarrow Y$.
-  - Luego, si un esquema está en 4FN, no puede haber dependencias funcionales no triviales `X \rightarrow Y` donde `X` no sea superclave.
+  - Luego, si un esquema está en 4FN, no puede haber dependencias funcionales no triviales $X \rightarrow Y$ donde $X$ no sea superclave.
 
-Lo más facil es primero pasar a FNBC y luego eliminar las dependencias multivaluadas donde `X` no sea superclave.
+Lo más facil es primero pasar a FNBC y luego eliminar las dependencias multivaluadas donde $X$ no sea superclave.
 
 ### Quinta Forma Normal (5FN)
 
-Un esquema de base de datos está en 5FN si y solo si para toda dependencia de junta `X \rightarrow\rightarrow Y`, `X` es superclave.
+Un esquema de base de datos está en 5FN si y solo si para toda dependencia de junta $X \rightarrow\rightarrow Y$, $X$ es superclave.
 
 Es algo medio raro, pero se da cuando tenemos dependencias de junta, es decir, dependencias que no se pueden expresar como dependencias funcionales.
 
