@@ -59,6 +59,7 @@ ACTORS_IN_MOVIES_NAMES
 ```
 
 Resultado:
+
 | actors.first_name | actors.last_name |
 |:-:|:-:|
 |'André'|'Morell'|
